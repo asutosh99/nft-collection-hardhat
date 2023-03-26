@@ -1,23 +1,15 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config({ path: ".env" });
 
-const fs = require("fs");
-let mnemonic = fs.readFileSync(".secret").toString().trim();
-let infuraProjectID = fs.readFileSync(".infura").toString().trim();
-console.log(infuraProjectID);
-/** @type import('hardhat/config').HardhatUserConfig */
+const QUICKNODE_HTTP_URL = process.env.QUICKNODE_HTTP_URL;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+
 module.exports = {
+  solidity: "0.8.4",
   networks: {
     goerli: {
-      url: "https://goerli.infura.io/v3/" + infuraProjectID,
-      accounts: {
-        mnemonic,
-        path: "m/44'/60'/0'/0",
-        initialIndex: 0,
-        count: 20,
-        gas: 2100000,
-        gasPrice: 8000000000,
-      },
+      url: QUICKNODE_HTTP_URL,
+      accounts: [PRIVATE_KEY],
     },
   },
-  solidity: "0.8.17",
 };
